@@ -2,8 +2,10 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 
-'''function para carregar o arquivo e gerar um data frame para utiizarmos 
-na hora de entregar os dados para o código do machine learning. '''
+'''function para carregar o arquivo e gerar um data frame para utilizarmos 
+na hora de entregar os dados para o código do machine learning. Além disso, usando
+a biblioteca matplotlib.pyplot será gerado os gráficos para conferência das  informações coletando
+as informações do sensor, o código identificador da máquina e o ciclo dela.'''
 
 def carregar_dados():
     # Define o caminho do arquivo que utilizamos (mesma pasta do script)
