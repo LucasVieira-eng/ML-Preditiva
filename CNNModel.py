@@ -61,4 +61,4 @@ layers.Dense(1) # RUL output
 
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 model.fit(X_train, Y_train, epochs=10, batch_size=32)
-model.save('CNN_model_lucasv.keras')
+model.save('CNN_model.keras')

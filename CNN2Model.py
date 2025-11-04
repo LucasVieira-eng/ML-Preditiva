@@ -35,9 +35,8 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_train = np.expand_dims(X_train, axis=-1)
 
-print(X_train, Y_train)
 
-'''
+
 # Modelo CNN
 l2_strength = 1e-3
 model = models.Sequential([
@@ -64,10 +63,9 @@ history = model.fit(
     X_train, Y_train,
     epochs=50,
     batch_size=64,
-    validation_data=load_cmaps_data('test_FD001.txt'),
+    validation_split=0.2,
     callbacks=[tf.keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)]
 )
 
 # Salva o modelo
-model.save('CNN_model_lucasv.keras')
-'''
+model.save('CNN_model.keras')
