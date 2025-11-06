@@ -11,24 +11,30 @@ def load_cmaps_data(file_path):
             if line.strip():
                 data.append([float(x) for x in line.strip().split()])
     data = np.array(data)
-    
+
     units = np.unique(data[:, 0]).astype(int)
-    X_list, Y_list = [], []
-    
+    X_list, Y_list, unit_ids_list, cycles_list = [], [], [], []
+
     for unit in units:
         unit_data = data[data[:, 0] == unit]
         cycles = unit_data[:, 1].astype(int)
         measurements = unit_data[:, 2:]
         max_cycle = cycles.max()
+
         X_list.append(measurements)
         Y_list.append(max_cycle - cycles)
-    
+        unit_ids_list.append(np.full_like(cycles, unit))
+        cycles_list.append(cycles)
+
     X = np.vstack(X_list)
     Y = np.concatenate(Y_list)
-    return X, Y
+    unit_ids = np.concatenate(unit_ids_list)
+    cycles = np.concatenate(cycles_list)
+
+    return X, Y, unit_ids, cycles
 
 # Carrega e prepara dados
-X_train, Y_train = load_cmaps_data('train_FD001.txt')
+X_train, Y_train, _, _ = load_cmaps_data('train_FD001.txt')
 
 # Normaliza e adiciona dimensão de canal
 scaler = StandardScaler()

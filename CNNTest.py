@@ -2,7 +2,9 @@ import CNN2Model
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import models
-X_test, Y_test = CNN2Model.load_cmaps_data('test_FD001.txt')
+from sklearn.preprocessing import StandardScaler
+
+X_test, Y_test, unit_ids, cycles = CNN2Model.load_cmaps_data('test_FD001.txt')
 
 
 def predict_engine_rul(model, X, unit_ids, cycles):
@@ -48,20 +50,22 @@ def predict_engine_rul(model, X, unit_ids, cycles):
 
         # Store per-cycle adjusted RUL
         for c, y in zip(cycles_unit, Y_adjusted):
+
             cycle_rul[(unit, c)] = y
 
         # Engine-level RUL: mean of all adjusted predictions
         engine_rul[unit] = Y_adjusted.mean()
 
-    return engine_rul, cycle_rul
+    return engine_rul, cycle_rul 
 
 model = models.load_model('CNN_model.keras')
-unit_ids = X_test[:, 0].astype(int)
 cycles = X_test[:, 1].astype(int)
 
-engine_rul, cycle_rul = predict_engine_rul(model, X_test, unit_ids, cycles)
+scaler = StandardScaler()
+X_test = scaler.fit_transform(X_test)
+X_test = np.expand_dims(X_test, axis=-1)
 
-print("Engine RUL keys:", engine_rul.keys())
-print(unit_ids)
+
+engine_rul, cycle_rul = predict_engine_rul(model, X_test, unit_ids, cycles)
 print(X_test.shape)
-print(np.unique(unit_ids))
+print(engine_rul[1])
