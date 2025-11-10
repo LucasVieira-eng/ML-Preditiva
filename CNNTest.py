@@ -46,7 +46,7 @@ def predict_engine_rul(model, X, unit_ids, cycles):
         Y_pred = model.predict(X_unit, verbose=0).flatten()
 
         # Adjust each cycle prediction by the number of cycles since start
-        Y_adjusted = Y_pred - (cycles_unit - cycles_unit[0])
+        Y_adjusted = Y_pred #- (cycles_unit - cycles_unit[0])
 
         # Store per-cycle adjusted RUL
         for c, y in zip(cycles_unit, Y_adjusted):
@@ -65,7 +65,4 @@ scaler = StandardScaler()
 X_test = scaler.fit_transform(X_test)
 X_test = np.expand_dims(X_test, axis=-1)
 
-
 engine_rul, cycle_rul = predict_engine_rul(model, X_test, unit_ids, cycles)
-print(X_test.shape)
-print(engine_rul[1])
