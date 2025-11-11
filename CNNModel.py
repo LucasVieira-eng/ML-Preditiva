@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 import pandas as pd
 import numpy as np
-from tensorflow.keras import regularizers
+from tensorflow.keras import regularizers, layers, models
 def load_cmaps_data(file_path):
     # Carrega os dados
     data = []
@@ -36,14 +36,29 @@ def load_cmaps_data(file_path):
 
 X_train, Y_train = load_cmaps_data('train_FD001.txt')
 
+print(X_train.shape)
 
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Input(shape=(X_train.shape[1], 1)),
-    tf.keras.layers.Dense(64, activation='relu', kernel_regularizer=regularizers.l2(0.001)),
-    tf.keras.layers.Dense(64, activation='relu', kernel_regularizer=regularizers.l2(0.001)),
-    tf.keras.layers.Dense(64, activation='relu', kernel_regularizer=regularizers.l2(0.001)),
-    tf.keras.layers.Dense(1)])
+
+l2_strength = 1e-3
+model = models.Sequential([
+layers.Input(shape=(X_train.shape[1], 1)),
+layers.Conv1D(filters=64, kernel_size=3, padding='same',
+kernel_regularizer=regularizers.l2(l2_strength)),
+layers.BatchNormalization(),
+layers.Activation('relu'),
+layers.MaxPool1D(pool_size=2),
+
+layers.Conv1D(filters=128, kernel_size=3, padding='same',
+kernel_regularizer=regularizers.l2(l2_strength)),
+layers.BatchNormalization(),
+layers.Activation('relu'),
+layers.MaxPool1D(pool_size=2),
+
+layers.Flatten(),
+layers.Dense(64, activation='relu', kernel_regularizer=regularizers.l2(l2_strength)),
+layers.Dense(1) # RUL output
+])
 
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 model.fit(X_train, Y_train, epochs=10, batch_size=32)
-model.save('mlp_model_lucasv.keras')
+model.save('CNN_model.keras')
