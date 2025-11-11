@@ -15,7 +15,7 @@ engine_rul_values = np.array(list(engine_rul.values()))
 
 # Create an x-axis for the indices
 x = np.arange(len(engine_rul_values))
-
+'''
 # Plot both arrays on the same graph
 plt.plot(x, engine_rul_values, label='Array 1', color='b', marker='o')  # Blue line with circle markers
 plt.plot(x, Y_test, label='Array 2', color='r', marker='x')  # Red line with x markers
@@ -24,3 +24,11 @@ plt.plot(x, Y_test, label='Array 2', color='r', marker='x')  # Red line with x m
 plt.xlabel('Comparison')
 plt.savefig("comparison_plot.png")
 print("Plot saved as comparison_plot.png")
+'''
+
+
+v_T = engine_rul_values.reshape(-1, 1)  # vira vetor coluna
+plt.plot(x,(Y_test - v_T), label='Array 1', color='b')
+plt.xlabel('Error')
+plt.savefig("error_plot.png")
+print("Plot saved as error_plot.png")
