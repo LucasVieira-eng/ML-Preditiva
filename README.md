@@ -37,7 +37,6 @@ Este projeto foi desenvolvido utilizando as seguintes ferramentas e bibliotecas:
 
 # 📂 Estrutura do Projeto
 
-
 ML-Preditiva/
 │
 ├── data/ # Arquivos do dataset FD001
@@ -125,7 +124,7 @@ Durante o desenvolvimento deste projeto foram reforçados conceitos importantes 
 
 # 👨‍💻 Autor
 
-Projeto desenvolvido por **Kauã Luiz Ramos** **Lucas Tavares Vieira** **Vitor Hashimoto Bancho** para fins de estudo e prática em **Machine Learning e Ciência de Dados** em parceria ao Projeto integrador *Indústria 4.0*, com auxílio do Prof **Rodrigo Juliani** e com a **UPM (Universidade Presbiteriana Mackenzie)**.
+Projeto desenvolvido por **Kauã Luiz Ramos**, **Lucas Tavares Vieira** e **Vitor Hashimoto Bancho** para fins de estudo e prática em **Machine Learning e Ciência de Dados** em parceria ao Projeto integrador *Indústria 4.0* com auxílio do Prof **Rodrigo Juliani** e com a **UPM (Universidade Presbiteriana Mackenzie)**.
 
 ---
 
