@@ -35,19 +35,6 @@ Este projeto foi desenvolvido utilizando as seguintes ferramentas e bibliotecas:
 
 ---
 
-# 📂 Estrutura do Projeto
-
-ML-Preditiva/
-│
-├── data/ # Arquivos do dataset FD001
-├── notebooks/ # Notebooks de análise exploratória
-├── models/ # Modelos treinados (CNNs)
-├── scripts/ # Scripts Python de treinamento e teste
-├── README.md # Documentação do projeto
-└── requirements.txt # Dependências Python
-
----
-
 # 📊 Etapas do Projeto
 
 ## 1️⃣ Análise Exploratória de Dados (EDA)
