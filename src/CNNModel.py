@@ -74,4 +74,4 @@ if __name__ == "__main__":
     )
 
     # Salva o modelo
-    model.save(os.path.join(os.path.dirname(__file__), '../CNN2_model.keras'))
+    model.save(os.path.join(os.path.dirname(__file__), '../models/CNN_model.keras'))
