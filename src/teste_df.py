@@ -10,7 +10,7 @@ as informações do sensor, o código identificador da máquina e o ciclo dela.'
 def carregar_dados():
     # Define o caminho do arquivo que utilizamos (mesma pasta do script)
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    train_path = os.path.join(base_dir, 'train_FD001.txt')
+    train_path = os.path.join(base_dir, '../data/train_FD001.txt')
 
     # Lê o arquivo — separando por espaços, sem cabeçalho
     df_sensors = pd.read_csv(train_path, sep=r'\s+', header=None, engine='python')

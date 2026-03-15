@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 Y_test = []
-with open('RUL_FD001.txt', 'r') as f:
+with open(os.path.join(os.path.dirname(__file__), '../data/RUL_FD001.txt'), 'r') as f:
     for line in f:
         if line.strip():
             Y_test.append([float(x) for x in line.strip().split()])

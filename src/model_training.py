@@ -8,7 +8,7 @@ import os
 def main():
     # Caminho base e arquivo de treino
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    train_path = os.path.join(base_dir, 'train_FD001.txt')
+    train_path = os.path.join(base_dir, '../data/train_FD001.txt')
 
     # Ler o dataset (ignora múltiplos espaços)
     df = pd.read_csv(train_path, sep=r'\s+', header=None, engine='python')

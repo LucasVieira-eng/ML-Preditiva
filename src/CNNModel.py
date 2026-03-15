@@ -1,8 +1,8 @@
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers, models, regularizers
+from keras import layers, models, regularizers, callbacks
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+import os
 
 def load_cmaps_data(file_path):
     data = []
@@ -34,7 +34,7 @@ def load_cmaps_data(file_path):
     return X, Y, unit_ids, cycles
 
 # Carrega e prepara dados
-X_train, Y_train, _, _ = load_cmaps_data('train_FD001.txt')
+X_train, Y_train, _, _ = load_cmaps_data(os.path.join(os.path.dirname(__file__), '../data/train_FD001.txt'))
 
 # Normaliza e adiciona dimensão de canal
 scaler = StandardScaler()
@@ -70,8 +70,8 @@ if __name__ == "__main__":
         epochs=50,
         batch_size=64,
         validation_split=0.2,
-        callbacks=[tf.keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)]
+        callbacks=[callbacks.EarlyStopping(patience=5, restore_best_weights=True)]
     )
 
     # Salva o modelo
-    model.save('CNN_model.keras')
+    model.save(os.path.join(os.path.dirname(__file__), '../CNN2_model.keras'))

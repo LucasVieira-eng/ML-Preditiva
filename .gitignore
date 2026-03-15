@@ -48,6 +48,13 @@ coverage.xml
 *.cover
 *.py.cover
 .hypothesis/
+
+# Virtual environment
+venv/
+
+# IDE files
+.idea/
+.vscode/
 .pytest_cache/
 cover/
 

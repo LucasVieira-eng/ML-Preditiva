@@ -1,10 +1,11 @@
 import CNN2Model
 import numpy as np
 import tensorflow as tf
-from tensorflow import keras
+from keras import models
 from sklearn.preprocessing import StandardScaler
+import os
 
-X_test, Y_test, unit_ids, cycles = CNN2Model.load_cmaps_data('test_FD001.txt')
+X_test, Y_test, unit_ids, cycles = CNN2Model.load_cmaps_data(os.path.join(os.path.dirname(__file__), '../data/test_FD001.txt'))
 
 
 def predict_engine_rul(model, X, unit_ids, cycles):
@@ -58,7 +59,7 @@ def predict_engine_rul(model, X, unit_ids, cycles):
 
     return engine_rul, cycle_rul 
 
-model = keras.models.load_model('CNN_model.keras')
+model = models.load_model(os.path.join(os.path.dirname(__file__), '../CNN_model.keras'))
 cycles = X_test[:, 1].astype(int)
 
 scaler = StandardScaler()
