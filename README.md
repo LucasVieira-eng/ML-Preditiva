@@ -18,7 +18,7 @@ Durante o desenvolvimento foram exploradas etapas importantes de um projeto de c
 - Treinamento de modelos de Machine Learning
 - Avaliação de desempenho do modelo
 
-Projetos de ML geralmente seguem esse fluxo para transformar dados brutos em modelos capazes de realizar previsões ou classificações. :contentReference[oaicite:1]{index=1}
+Projetos de ML geralmente seguem esse fluxo para transformar dados brutos em modelos capazes de realizar previsões ou classificações.
 
 ---
 
@@ -31,7 +31,7 @@ Este projeto foi desenvolvido utilizando as seguintes ferramentas e bibliotecas:
 - **NumPy** – Computação numérica
 - **Matplotlib / Seaborn** – Visualização de dados
 - **Scikit-learn** – Modelagem de Machine Learning
-- **Jupyter Notebook**
+- **Streamlit**
 
 ---
 
@@ -63,12 +63,7 @@ Foram realizadas etapas de preparação dos dados para melhorar o desempenho dos
 
 Os modelos de Machine Learning foram treinados utilizando bibliotecas do ecossistema Python.
 
-Entre os algoritmos possíveis em projetos desse tipo estão:
-
-- Regressão Logística
-- Decision Tree
-- Random Forest
-- Modelos de classificação ou regressão
+Nesse projeto foi utilizado Tensorflow e tecnologia Convolutional Neural Network (CNN).
 
 ---
 
@@ -76,13 +71,8 @@ Entre os algoritmos possíveis em projetos desse tipo estão:
 
 Após o treinamento, o modelo foi avaliado utilizando métricas como:
 
-- Acurácia
-- Matriz de confusão
-- Precisão
-- Recall
-- F1-score
-
-Essas métricas permitem entender o desempenho real do modelo preditivo.
+- Mean Squared Error (MSE)
+- Mean Absolute Error (MAE)
 
 ---
 
