@@ -29,8 +29,8 @@ Este projeto foi desenvolvido utilizando as seguintes ferramentas e bibliotecas:
 - **Python**
 - **Pandas** – Manipulação e análise de dados
 - **NumPy** – Computação numérica
-- **Matplotlib / Seaborn** – Visualização de dados
-- **Scikit-learn** – Modelagem de Machine Learning
+- **Matplotlib** – Visualização de dados
+- **Tensorflow** – Modelagem de Machine Learning
 - **Streamlit**
 
 ---
