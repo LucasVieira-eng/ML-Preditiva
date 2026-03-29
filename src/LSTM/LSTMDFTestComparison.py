@@ -10,10 +10,15 @@ engine_rul_values = np.array(list(engine_rul_pred.values()))
 
 # Create an x-axis for the indices
 x = np.arange(len(engine_rul_values))
-'''
+
 # Plot both arrays on the same graph
-plt.plot(x, engine_rul_values, label='Array 1', color='b', marker='o')  # Blue line with circle markers
-plt.plot(x, true_rul, label='Array 2', color='r', marker='x')  # Red line with x markers
+plt.plot(x, engine_rul_values, linestyle='None', marker='o', label='Predicted')
+plt.plot(x, true_rul, linestyle='None', marker='x', label='True')
+
+# vertical distances
+plt.vlines(x, engine_rul_values, true_rul, colors='gray', linestyles='dashed')
+
+plt.legend()
 
 # Adding labels and title
 plt.xlabel('Comparison')
@@ -33,3 +38,4 @@ plt.ylabel("Prediction Error (Pred - True)")
 plt.title("RUL Prediction Error per Engine")
 plt.savefig("plots/LSTM_error.png")
 print("Plot saved as LSTM_error.png")
+'''
