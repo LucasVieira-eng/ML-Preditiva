@@ -72,4 +72,6 @@ pred_list = np.array(pred_list)
 
 rmse = np.sqrt(np.mean((pred_list - true_rul) ** 2))
 
+print(f"RMSE: {rmse}")
+
 
