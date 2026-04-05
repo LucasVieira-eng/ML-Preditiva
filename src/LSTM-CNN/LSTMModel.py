@@ -24,8 +24,8 @@ def load_cmaps_data(file_path, window_size=40, rul_clip=125):
     mu = features.mean(axis=0)
     sigma = features.std(axis=0) + 1e-8
     features = (features - mu) / sigma
-    np.save("data/mu.npy", mu)
-    np.save("data/sigma.npy", sigma)
+    np.save(os.path.join(os.path.dirname(__file__), "../../data/mu.npy"), mu)
+    np.save(os.path.join(os.path.dirname(__file__), "../../data/sigma.npy"), sigma)
 
 
     # ---- Build sequences
@@ -56,7 +56,7 @@ def load_cmaps_data(file_path, window_size=40, rul_clip=125):
     return X, Y
 
 # Carrega e prepara dados
-X_train, Y_train = load_cmaps_data(os.path.join(os.path.dirname(__file__), '../data/train_FD001.txt'))
+X_train, Y_train = load_cmaps_data(os.path.join(os.path.dirname(__file__), '../../data/train_FD001.txt'))
 
 if __name__ == "__main__":
 
@@ -103,4 +103,4 @@ if __name__ == "__main__":
     )
 
     # Salva o modelo
-    model.save(os.path.join(os.path.dirname(__file__), '../models/LSTM_model.keras'))
+    model.save(os.path.join(os.path.dirname(__file__), '../../models/LSTM_model.keras'))

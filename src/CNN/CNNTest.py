@@ -4,9 +4,9 @@ import tensorflow as tf
 from keras import models
 import os
     
-X_test, Y_test, unit_ids_test = CNNModel.load_cmaps_data(os.path.join(os.path.dirname(__file__), '../data/test_FD001.txt'))
+X_test, Y_test, unit_ids_test = CNNModel.load_cmaps_data(os.path.join(os.path.dirname(__file__), '../../data/test_FD001.txt'))
 
-model = models.load_model(os.path.join(os.path.dirname(__file__), '../models/CNN_model.keras'))
+model = models.load_model(os.path.join(os.path.dirname(__file__), '../../models/CNN_model.keras'))
 
 # Make predictions on all test windows
 Y_pred = model.predict(X_test, verbose=0).flatten()
@@ -20,7 +20,7 @@ for unit in np.unique(unit_ids_test):
     engine_rul_pred[unit] = Y_pred[last_idx]
 
 # Load true RUL values for evaluation
-true_rul = np.loadtxt(os.path.join(os.path.dirname(__file__), '../data/RUL_FD001.txt')).flatten()
+true_rul = np.loadtxt(os.path.join(os.path.dirname(__file__), '../../data/RUL_FD001.txt')).flatten()
 
 # Get predictions in the same order as true RUL
 pred_list = []

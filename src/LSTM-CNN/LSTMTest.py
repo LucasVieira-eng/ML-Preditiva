@@ -16,8 +16,8 @@ def load_cmaps_data(file_path, window_size=40, rul_clip=125):
 
     features = np.hstack([settings, sensors])
 
-    mu = np.load("data/mu.npy")
-    sigma = np.load("data/sigma.npy")
+    mu = np.load(os.path.join(os.path.dirname(__file__), "../../data/mu.npy"))
+    sigma = np.load(os.path.join(os.path.dirname(__file__), "../../data/sigma.npy"))
     features = (features - mu) / sigma
 
     X, Y, unit_window_ids = [], [], []
@@ -51,8 +51,8 @@ def load_cmaps_data(file_path, window_size=40, rul_clip=125):
 
     return np.array(X), np.array(Y), np.array(unit_window_ids)
 
-X_test, Y_test, unit_ids_test = load_cmaps_data("data/test_FD001.txt")
-model = models.load_model("models/LSTM_model.keras")
+X_test, Y_test, unit_ids_test = load_cmaps_data(os.path.join(os.path.dirname(__file__), "../../data/test_FD001.txt"))
+model = models.load_model(os.path.join(os.path.dirname(__file__), "../../models/LSTM_model.keras"))
 Y_pred = model.predict(X_test).flatten()
 
 engine_rul_pred = {}
@@ -62,7 +62,7 @@ for unit in np.unique(unit_ids_test):
     last_idx = idx[-1]  # last window of that engine
     engine_rul_pred[unit] = Y_pred[last_idx]
 
-true_rul = np.loadtxt("data/RUL_FD001.txt")
+true_rul = np.loadtxt(os.path.join(os.path.dirname(__file__), "../../data/RUL_FD001.txt"))
 
 pred_list = []
 for i, unit in enumerate(sorted(engine_rul_pred.keys())):
@@ -71,7 +71,16 @@ for i, unit in enumerate(sorted(engine_rul_pred.keys())):
 pred_list = np.array(pred_list)
 
 rmse = np.sqrt(np.mean((pred_list - true_rul) ** 2))
+mse = np.mean((pred_list - true_rul) ** 2)
+mae = np.mean(np.abs(pred_list - true_rul))
+ss_res = np.sum((pred_list - true_rul) ** 2)
+ss_tot = np.sum((true_rul - np.mean(true_rul)) ** 2)
+r_squared = 1 - (ss_res / ss_tot)
 
-print(f"RMSE: {rmse}")
+print(f"\n=== LSTM Model Evaluation ===")
+print(f"MSE: {mse:.4f}")
+print(f"MAE: {mae:.4f}")
+print(f"R-squared: {r_squared:.4f}")
+print(f"RMSE: {rmse:.4f}")
 
 
