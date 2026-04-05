@@ -12,6 +12,7 @@ engine_rul_values = np.array([engine_rul_pred[unit] for unit in sorted(engine_ru
 # Create an x-axis for the indices
 x = np.arange(len(engine_rul_values))
 
+plt.rcParams.update({'font.size': 18})
 # Figure 1: Comparison plot with vertical distance lines
 fig, ax = plt.subplots(figsize=(12, 6))
 ax.plot(x, engine_rul_values, linestyle='None', marker='o', label='Previsto')
