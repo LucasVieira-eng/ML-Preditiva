@@ -1,42 +1,54 @@
-import CNNModel
-import numpy as np
-import tensorflow as tf
-from keras import models
 import os
-    
-X_test, Y_test, unit_ids_test = CNNModel.load_cmaps_data(os.path.join(os.path.dirname(__file__), '../../data/test_FD001.txt'))
+import numpy as np
+from keras import models
+from CNNModel import load_cmaps_data, inverse_rul_transform
 
-model = models.load_model(os.path.join(os.path.dirname(__file__), '../../models/CNN_model.keras'))
 
-# Make predictions on all test windows
-Y_pred = model.predict(X_test, verbose=0).flatten()
+def predict_engine_rul(model_path, data_path, window_size=80, y_pred_clip_max=6.0):
+    X_test, _, unit_ids_test = load_cmaps_data(data_path, window_size=window_size)
+    model = models.load_model(model_path)
+    y_pred = model.predict(X_test, verbose=0).flatten()
+    y_pred = inverse_rul_transform(y_pred, y_pred_clip_max=y_pred_clip_max)
 
-# Get RUL prediction per engine (last window of each engine)
-engine_rul_pred = {}
+    engine_rul_pred = {}
+    for unit in np.unique(unit_ids_test):
+        idx = np.where(unit_ids_test == unit)[0]
+        engine_rul_pred[unit] = float(y_pred[idx[-1]])
 
-for unit in np.unique(unit_ids_test):
-    idx = np.where(unit_ids_test == unit)[0]
-    last_idx = idx[-1]  # last window of that engine
-    engine_rul_pred[unit] = Y_pred[last_idx]
+    return engine_rul_pred
 
-# Load true RUL values for evaluation
-true_rul = np.loadtxt(os.path.join(os.path.dirname(__file__), '../../data/RUL_FD001.txt')).flatten()
 
-# Get predictions in the same order as true RUL
-pred_list = []
-for i, unit in enumerate(sorted(engine_rul_pred.keys())):
-    pred_list.append(engine_rul_pred[unit])
+def evaluate_model(model_path, data_path, true_rul_path, window_size=80, y_pred_clip_max=6.0):
+    engine_rul_pred = predict_engine_rul(model_path, data_path, window_size=window_size, 
+                                         y_pred_clip_max=y_pred_clip_max)
+    true_rul = np.loadtxt(true_rul_path).flatten()
+    pred_list = np.array([engine_rul_pred[unit] for unit in sorted(engine_rul_pred.keys())])
 
-pred_list = np.array(pred_list)
+    mse = np.mean((pred_list - true_rul) ** 2)
+    mae = np.mean(np.abs(pred_list - true_rul))
+    ss_res = np.sum((pred_list - true_rul) ** 2)
+    ss_tot = np.sum((true_rul - np.mean(true_rul)) ** 2)
+    r_squared = 1 - (ss_res / ss_tot)
 
-# Calculate metrics
-mse = np.mean((pred_list - true_rul) ** 2)
-mae = np.mean(np.abs(pred_list - true_rul))
-ss_res = np.sum((pred_list - true_rul) ** 2)
-ss_tot = np.sum((true_rul - np.mean(true_rul)) ** 2)
-r_squared = 1 - (ss_res / ss_tot)
+    metrics = {
+        'mse': float(mse),
+        'mae': float(mae),
+        'r_squared': float(r_squared),
+        'predictions': pred_list,
+        'true_rul': true_rul,
+        'engine_rul_pred': engine_rul_pred,
+    }
+    return metrics
 
-print(f"\n=== CNN Model Evaluation ===")
-print(f"MSE: {mse:.4f}")
-print(f"MAE: {mae:.4f}")
-print(f"R-squared: {r_squared:.4f}")
+
+if __name__ == "__main__":
+    base_dir = os.path.dirname(__file__)
+    model_path = os.path.join(base_dir, '../../models/CNN_modelV2.keras')
+    data_path = os.path.join(base_dir, '../../data/test_FD001.txt')
+    true_rul_path = os.path.join(base_dir, '../../data/RUL_FD001.txt')
+
+    metrics = evaluate_model(model_path, data_path, true_rul_path)
+    print("\n=== CNN Model Evaluation ===")
+    print(f"MSE: {metrics['mse']:.4f}")
+    print(f"MAE: {metrics['mae']:.4f}")
+    print(f"R-squared: {metrics['r_squared']:.4f}")
