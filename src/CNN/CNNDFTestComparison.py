@@ -29,7 +29,7 @@ plt.savefig(os.path.join(os.path.dirname(__file__), "../../plots/CNN_comparison_
 print("Gráfico salvo como CNN_comparison_plot.png")
 plt.close()
 
-# Figure 2: Error plot
+# Figure 2: Error plots
 error = engine_rul_values - true_rul
 
 fig, ax = plt.subplots(figsize=(12, 6))
