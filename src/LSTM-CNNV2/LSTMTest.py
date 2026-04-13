@@ -84,7 +84,7 @@ def inverse_rul_transform(y_pred, y_pred_clip_max=6.0):
 
 X_test, Y_test, unit_ids_test = load_cmaps_data(os.path.join(os.path.dirname(__file__), "../../data/test_FD001.txt"), 
                                                window_size=80)
-model = models.load_model(os.path.join(os.path.dirname(__file__), "../../models/LSTM_model.keras"))
+model = models.load_model(os.path.join(os.path.dirname(__file__), "../../models/LSTM_modelV2.keras"))
 Y_pred = model.predict(X_test, verbose=0).flatten()
 Y_pred = inverse_rul_transform(Y_pred, y_pred_clip_max=6.0)
 
