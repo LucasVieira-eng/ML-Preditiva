@@ -212,3 +212,35 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# =========================
+# ML / Data Science
+# =========================
+
+# Modelos treinados
+models/
+*.h5
+*.keras
+*.pt
+*.pth
+*.joblib
+*.pkl
+
+# Dados
+data/
+datasets/
+*.csv
+*.parquet
+
+# Outputs / resultados
+plots/
+outputs/
+results/
+
+# Logs de treino
+logs/
+wandb/
+mlruns/
+
+# Checkpoints
+checkpoints/
