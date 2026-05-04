@@ -1,0 +1,32 @@
+Como funciona o Transformer — passo a passo
+1. 📥 Entrada — Janela de sensores
+O modelo recebe uma janela de 30 ciclos consecutivos de cada motor, com 17 features (3 configurações operacionais + 14 sensores selecionados). Ou seja, cada amostra é uma "filmagem" dos últimos 30 ciclos do motor.
+
+2. 📐 Projeção Linear
+Os 17 valores de cada ciclo são projetados para uma dimensão maior (embed_dim = 64). Isso é como "traduzir" os dados dos sensores para uma linguagem que o Transformer entende melhor.
+
+3. 🕐 Positional Encoding
+Como o Transformer não processa a sequência em ordem (diferente do LSTM), ele precisa saber qual ciclo veio antes. O Positional Encoding injeta uma informação senoidal que representa a posição de cada ciclo na janela — sem isso o modelo trataria todos os ciclos como equivalentes.
+
+4. 🧠 Blocos Transformer (×2)
+O coração do modelo. Cada bloco tem duas partes:
+
+Multi-Head Attention (4 heads): cada ciclo "olha" para todos os outros ciclos da janela e decide quais são mais relevantes para prever o RUL. Com 4 heads, o modelo consegue prestar atenção em 4 padrões diferentes simultaneamente — por exemplo, uma head pode focar em tendências de longo prazo e outra em variações bruscas recentes.
+Feed Forward: uma rede densa que processa e refina as informações captadas pela atenção.
+
+
+5. 📊 GlobalAveragePooling
+Após os blocos Transformer, toda a sequência de 30 ciclos é comprimida em um único vetor — tirando a média de todos os timesteps. Isso resume "o que o modelo aprendeu sobre esse motor".
+
+6. 🎯 Saída — Previsão do RUL
+Passa por uma camada Dense(64) + Dropout e finalmente uma Dense(1) que retorna o RUL previsto em escala logarítmica, depois convertido de volta para ciclos.
+
+Resultados obtidos
+MétricaTransformerMAE15.43 ciclosRMSE21.64 ciclos
+O que isso significa na prática?
+
+MAE 15.43 → em média, o modelo erra por ±15 ciclos na previsão de vida útil restante
+RMSE 21.64 → os erros maiores (outliers) chegam a ~22 ciclos de desvio
+
+Como se compara com o estado da arte?
+No benchmark C-MAPSS FD001, os melhores modelos da literatura chegam a MAE entre 11–14 ciclos. O Transformer de vocês com 15.43 está muito próximo — considerando que foi treinado sem GPU e parou no epoch 38 por EarlyStopping, é um resultado excelente para um projeto acadêmico.
