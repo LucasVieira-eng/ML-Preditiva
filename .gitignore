@@ -233,7 +233,7 @@ datasets/
 *.parquet
 
 # Outputs / resultados
-plots/
+
 outputs/
 results/
 
